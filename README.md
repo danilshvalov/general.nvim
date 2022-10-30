@@ -76,7 +76,7 @@ end)
 Another example:
 
 ```lua
-local lua_map = map:new():prefix("<leader>l"):mode("n"):ft("lua")
+local lua_map = map:new({ prefix = "<leader>l", mode = "n", ft = "lua" })
 
 lua_map
     :set("h", function()
