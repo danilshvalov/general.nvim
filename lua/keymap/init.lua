@@ -40,7 +40,7 @@ function Map:new(opts)
   if this.__prefix and this.__label then
     local ok, wk = pcall(require, "which-key")
     if ok then
-      wk.register({ name = this.__label }, { prefix = this.__prefix, mode = self.__mode })
+      wk.register({ name = this.__label }, { prefix = this.__prefix, mode = this.__mode })
     end
   end
 
