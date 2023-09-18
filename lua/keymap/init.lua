@@ -76,6 +76,28 @@ function Map:set(lhs, rhs, opts)
   return self
 end
 
+function Map:amend(lhs, rhs, opts)
+  local amend = require("keymap-amend")
+
+  local prefix = self.__prefix or ""
+  opts = vim.tbl_deep_extend("force", self.__opts, opts or {})
+
+  if type(self.__ft) == "string" then
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = self.__ft,
+      group = vim.api.nvim_create_augroup(self.__ft .. "_keymap", { clear = false }),
+      callback = function()
+        opts.buffer = 0
+        amend(self.__mode, prefix .. lhs, rhs, opts)
+      end,
+    })
+  else
+    amend(self.__mode, prefix .. lhs, rhs, opts)
+  end
+
+  return self
+end
+
 function Map:prefix(prefix, label)
   return Map:new(vim.tbl_deep_extend("force", self.__opts, {
     prefix = prefix,
